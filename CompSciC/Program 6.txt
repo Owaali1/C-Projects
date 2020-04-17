@@ -1,0 +1,39 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+int main(void)
+{
+	char line[80];
+	
+	int digits = 0;
+	int blanks = 0;
+	int vowels = 0;
+	int consonants = 0;
+	cout << "Enter a file name ";
+	cin >> line;
+	ifstream infile(line);
+	if (!infile) cout << "Invalid File" << endl;
+	else
+	{
+		while (infile.getline(line, 80))
+		{
+			cout << line << endl;
+			for (int i = 0; i < strlen(line); i++)
+			if (line[i] >= '0' && line[i] <= '9') digits++;
+			else if (line[i] == ' ') blanks++;
+			else if (line[i] == 'a' || line[i] == 'e' || line[i] == 'i' || line[i] == 'o' || line[i] == 'u' || line[i] == 'A' || line[i] == 'E' || line[i] == 'I' || line[i] == 'O' || line[i] == 'U') vowels++;
+			else if (line[i] >= 'a' && line[i] <= 'z' || line[i] >= 'A' && line[i] <= 'Z') consonants++;
+
+		}
+		cout << "\nDigits:" << digits << endl;
+		cout << "\nBlanks:" << blanks << endl;
+		cout << "\nVowels:" << vowels << endl;
+		cout << "\nConsonants:" << consonants << endl;
+		infile.close();
+	}
+	return 0;
+
+
+
+}

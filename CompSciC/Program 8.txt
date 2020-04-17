@@ -1,0 +1,144 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+using namespace std;
+
+typedef char Str[20];
+
+//Function for Display
+void Print(Str names[], int grades[], int count)
+{
+	for (int i = 0; i < count; i++)
+		cout << left << setw(12) << names[i] << " " << right << setw(4) << grades[i] << endl;
+}
+
+// Function for Average
+float GetAverage(int grades[], int count)
+{
+	float total = 0;
+	for (int i = 0; i < count; i++)
+		total += grades[i];
+	return total / count;
+}
+
+
+//Function for bubble sort 
+void BubbleSort(Str names[], int grades[], int count)
+{
+	for (int i = 0; i < count - 1; i++)
+	for (int j = 0; j < count - 1; j++)
+	if (grades[j + 1]> grades[j])
+	{
+
+
+		int temp = grades[j + 1];
+		grades[j + 1] = grades[j];
+		grades[j] = temp;
+
+		Str tempname;
+		strcpy(tempname, names[j + 1]);
+		strcpy(names[j + 1], names[j]);
+		strcpy(names[j], tempname);
+	}
+}
+//Funtions for counting Grades
+int CountAs(char s[])
+{
+	int a = 0;
+	for (int i = 0; i < strlen(s); i++)
+	if (s[i] < 100) a++;
+	return a;
+}
+int CountBs(char s[])
+{
+	int b = 0;
+	for (int i = 0; i < strlen(s); i++)
+	if (s[i] < 89 && s[i] > 80) b++;
+	return b;
+}
+int CountCs(char s[])
+{
+	int c = 0;
+	for (int i = 0; i < strlen(s); i++)
+	if (s[i] < 79) c++;
+	return c;
+}
+int CountDs(char s[])
+{
+	int d = 0;
+	for (int i = 0; i < strlen(s); i++)
+	if (s[i] < 69) d++;
+	return d;
+}
+int CountFs(char s[])
+{
+	int f = 0;
+	for (int i = 0; i < strlen(s); i++)
+	if (s[i] < 59) f++;
+	return f;
+}
+
+//Function for Highest
+int GetHighest(int grades[], int count)
+{
+	int high = grades[0];
+	for (int i = 0; i < count; i++)
+	
+	if (grades[i] > high) high = grades[i];
+	return high;
+}
+
+
+//Function for lowest
+int GetLowest(int grades[], int count)
+{
+	int low = grades[0];
+	for (int i = 1; i < count; i++)
+	if (grades[i] < low) low = grades[i];
+	return low;
+}
+
+
+// 2 Arrays
+int main(void)
+{
+	Str names[20];
+	int grades[20];
+	int count = 0; // # of actual students
+	char fn[30];
+	cout << "Enter a file name:";
+	cin >> fn;
+	ifstream infile(fn);
+	if (infile)
+	{
+		for (; infile >> names[count] >> grades[count]; count++);
+		infile.close();
+
+		// Prints Original values
+		cout << "\nOriginal\n";
+		Print(names, grades, count);
+
+		// Prints Sorted Values
+		BubbleSort(names,grades,count);
+		cout << "\nSorted\n";
+		Print(names, grades, count);
+
+		//Prints A,B,C,D,and F
+		cout << fixed << setprecision(2) << "\nThere are " << CountAs(fn) << " A's." << endl;
+		cout << fixed << setprecision(2) << "There are " << CountBs(fn) << " B's." << endl;
+		cout << fixed << setprecision(2) << "There are " << CountCs(fn) << " C's." << endl;
+		cout << fixed << setprecision(2) << "There are " << CountDs(fn) << " D's." << endl;
+		cout << fixed << setprecision(2) << "There are " << CountFs(fn) << " F's." << endl;
+
+
+		//Prints Avg, High, Low
+		cout << fixed << setprecision(2) << "\nAverage: " << GetAverage(grades, count) << endl;
+		cout << fixed << setprecision(2) << "Highest: " << GetHighest(grades, count) << endl;
+		cout << fixed << setprecision(2) << "Lowest: " << GetLowest(grades, count) << endl;
+
+	}
+	// Invalid File displays
+	else cout << "Invalid file";
+	return 0;
+}
